@@ -1,8 +1,8 @@
 PKG_NAME="citra"
-PKG_VERSION="d7e1612c17b1acb5d5eb68bb046820db49aeea5e"
-PKG_ARCH="x86_64"
+PKG_VERSION="8c6d72dbc0639b34b451132e214812a87ff4895e"
+PKG_ARCH="aarch64 arm"
 PKG_LICENSE="GPLv2+"
-PKG_SITE="https://github.com/libretro/citra"
+PKG_SITE="https://github.com/wings110/citra"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A Nintendo 3DS Emulator"
@@ -11,6 +11,11 @@ PKG_TOOLCHAIN="make"
 PKG_MAKE_OPTS_TARGET="HAVE_FFMPEG_STATIC=1 \
                       FFMPEG_DISABLE_VDPAU=1 \
                       HAVE_FFMPEG_CROSSCOMPILE=1"
+
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  PKG_RENDERERS+=" vulkan"
+fi
 
 if [ "${OPENGL_SUPPORT}" = "yes" ]; then
   PKG_DEPENDS_TARGET+=" ${OPENGL}"

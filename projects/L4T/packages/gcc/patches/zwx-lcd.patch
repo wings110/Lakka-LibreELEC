@@ -1,0 +1,62 @@
+diff -Naur gcc-9.5.0/config/override.m4 gcc-9.5.0-mod/config/override.m4
+--- gcc-9.5.0/config/override.m4	2022-05-27 15:21:10.000000000 +0800
++++ gcc-9.5.0-mod/config/override.m4	2023-07-14 23:48:29.634451828 +0800
+@@ -38,15 +38,6 @@
+ dnl in configure.ac before AC_INIT,
+ dnl without rewriting this file.
+ dnl Or for updating the whole tree at once with the definition above.
+-AC_DEFUN([_GCC_AUTOCONF_VERSION_CHECK],
+-[m4_if(m4_defn([_GCC_AUTOCONF_VERSION]),
+-  m4_defn([m4_PACKAGE_VERSION]), [],
+-  [m4_fatal([Please use exactly Autoconf ]_GCC_AUTOCONF_VERSION[ instead of ]m4_defn([m4_PACKAGE_VERSION])[.])])
+-])
+-m4_define([AC_INIT], m4_defn([AC_INIT])[
+-_GCC_AUTOCONF_VERSION_CHECK
+-])
+-
+ 
+ dnl Ensure we do not use a buggy M4.
+ m4_if(m4_index([..wi.d.], [.d.]), [-1],
+diff -Naur gcc-9.5.0/gcc/config/i386/t-linux64 gcc-9.5.0-mod/gcc/config/i386/t-linux64
+--- gcc-9.5.0/gcc/config/i386/t-linux64	2022-05-27 15:21:10.000000000 +0800
++++ gcc-9.5.0-mod/gcc/config/i386/t-linux64	2023-07-14 23:46:54.985381990 +0800
+@@ -33,6 +33,6 @@
+ comma=,
+ MULTILIB_OPTIONS    = $(subst $(comma),/,$(TM_MULTILIB_CONFIG))
+ MULTILIB_DIRNAMES   = $(patsubst m%, %, $(subst /, ,$(MULTILIB_OPTIONS)))
+-MULTILIB_OSDIRNAMES = m64=../lib64$(call if_multiarch,:x86_64-linux-gnu)
+-MULTILIB_OSDIRNAMES+= m32=$(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)$(call if_multiarch,:i386-linux-gnu)
+-MULTILIB_OSDIRNAMES+= mx32=../libx32$(call if_multiarch,:x86_64-linux-gnux32)
++#MULTILIB_OSDIRNAMES = m64=../lib64$(call if_multiarch,:x86_64-linux-gnu)
++#MULTILIB_OSDIRNAMES+= m32=$(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)$(call if_multiarch,:i386-linux-gnu)
++#MULTILIB_OSDIRNAMES+= mx32=../libx32$(call if_multiarch,:x86_64-linux-gnux32)
+diff -Naur gcc-9.5.0/gcc/incpath.c gcc-9.5.0-mod/gcc/incpath.c
+--- gcc-9.5.0/gcc/incpath.c	2022-05-27 15:21:11.000000000 +0800
++++ gcc-9.5.0-mod/gcc/incpath.c	2023-07-14 23:50:55.449600013 +0800
+@@ -461,6 +461,26 @@
+   p->construct = 0;
+   p->user_supplied_p = user_supplied_p;
+ 
++    /* A common error when cross compiling is including
++    host headers. This code below will try to fail fast
++    for cross compiling. Currently we consider /usr/include,
++    /opt/include and /sw/include as harmful.  */
++
++	{
++		/* printf("Adding Path: %s\n", p->name ); */
++		if( strstr(p->name, "/usr/include" ) == p->name ) {
++			fprintf(stderr, _("CROSS COMPILE Badness: /usr/include in INCLUDEPATH: %s\n"), p->name);
++			abort();
++		} else if( strstr(p->name, "/sw/include") == p->name ) {
++			fprintf(stderr, _("CROSS COMPILE Badness: /sw/include in INCLUDEPATH: %s\n"), p->name);
++			abort();
++		} else if( strstr(p->name, "/opt/include") == p->name ) {
++			fprintf(stderr, _("CROSS COMPILE Badness: /opt/include in INCLUDEPATH: %s\n"), p->name);
++			abort();
++		 }
++	}
++
++
+   add_cpp_dir_path (p, chain);
+ }
+ 
