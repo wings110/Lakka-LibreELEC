@@ -1,0 +1,174 @@
+From 5be42eaddbc5725a39eff275bec097f9eee3da7f Mon Sep 17 00:00:00 2001
+From: Ronald Brown <rbrown4014@yahoo.com>
+Date: Mon, 30 Jan 2023 08:05:50 -0800
+Subject: [PATCH 1/7] Lakka-Switch: Decouple from LibNX Builds
+
+---
+ intl/msg_hash_ar.h                | 15 ++-----
+ intl/msg_hash_ast.h               |  7 ++--
+ intl/msg_hash_ca.h                | 15 ++-----
+ intl/msg_hash_chs.h               | 15 ++-----
+ intl/msg_hash_cht.h               | 15 ++-----
+ intl/msg_hash_cs.h                | 15 ++-----
+ intl/msg_hash_cy.h                |  6 +--
+ intl/msg_hash_da.h                |  6 +--
+ intl/msg_hash_de.h                | 14 ++-----
+ intl/msg_hash_el.h                | 15 ++-----
+ intl/msg_hash_en.h                | 14 ++-----
+ intl/msg_hash_eo.h                |  7 ++--
+ intl/msg_hash_es.h                | 15 ++-----
+ intl/msg_hash_fa.h                |  6 +--
+ intl/msg_hash_fi.h                | 15 ++-----
+ intl/msg_hash_fr.h                | 15 ++-----
+ intl/msg_hash_gl.h                |  7 ++--
+ intl/msg_hash_he.h                |  6 +--
+ intl/msg_hash_hr.h                |  6 +--
+ intl/msg_hash_hu.h                | 15 ++-----
+ intl/msg_hash_id.h                | 15 ++-----
+ intl/msg_hash_it.h                | 15 ++-----
+ intl/msg_hash_ja.h                | 15 ++-----
+ intl/msg_hash_ko.h                | 14 ++-----
+ intl/msg_hash_lbl.h               |  8 +---
+ intl/msg_hash_mt.h                |  7 ++--
+ intl/msg_hash_nl.h                |  7 ++--
+ intl/msg_hash_no.h                |  7 ++--
+ intl/msg_hash_oc.h                |  6 +--
+ intl/msg_hash_pl.h                | 15 ++-----
+ intl/msg_hash_pt_br.h             | 15 ++-----
+ intl/msg_hash_pt_pt.h             |  6 +--
+ intl/msg_hash_ro.h                |  6 +--
+ intl/msg_hash_ru.h                | 15 ++-----
+ intl/msg_hash_si.h                |  6 +--
+ intl/msg_hash_sk.h                | 15 ++-----
+ intl/msg_hash_sr.h                |  6 +--
+ intl/msg_hash_sv.h                |  6 +--
+ intl/msg_hash_tr.h                | 15 ++-----
+ intl/msg_hash_uk.h                | 10 ++---
+ intl/msg_hash_us.h                | 15 ++-----
+ intl/msg_hash_val.h               |  6 +--
+ intl/msg_hash_vn.h                |  6 +--
+ menu/cbs/menu_cbs_deferred_push.c | 11 +-----
+ menu/cbs/menu_cbs_get_value.c     |  4 --
+ menu/cbs/menu_cbs_left.c          |  4 --
+ menu/cbs/menu_cbs_ok.c            | 53 +++----------------------
+ menu/cbs/menu_cbs_right.c         |  5 +--
+ menu/cbs/menu_cbs_sublabel.c      | 18 ++-------
+ menu/cbs/menu_cbs_title.c         | 19 ++-------
+ menu/drivers/ozone.c              | 15 +------
+ menu/drivers/xmb.c                | 16 +-------
+ menu/menu_displaylist.c           | 65 ++-----------------------------
+ menu/menu_displaylist.h           |  5 +--
+ menu/menu_driver.c                |  7 ----
+ menu/menu_driver.h                |  5 +--
+ menu/menu_setting.c               | 17 ++------
+ retroarch.c                       |  7 ----
+ runloop.c                         |  7 ----
+ switch_performance_profiles.h     | 62 +----------------------------
+ 60 files changed, 153 insertions(+), 632 deletions(-)
+
+diff --git a/menu/cbs/menu_cbs_ok.c b/menu/cbs/menu_cbs_ok.c
+index 5f4f7327bb..6104dc6e37 100644
+--- a/menu/cbs/menu_cbs_ok.c
++++ b/menu/cbs/menu_cbs_ok.c
+@@ -100,7 +100,7 @@
+ #include "../../play_feature_delivery/play_feature_delivery.h"
+ #endif
+ 
+-#if defined(HAVE_LAKKA) || defined(HAVE_LIBNX)
++#if defined(HAVE_LIBNX)
+ #include "../../switch_performance_profiles.h"
+ #endif
+ 
+@@ -3914,19 +3914,11 @@ static int action_ok_deferred_list_stub(const char *path,
+    return 0;
+ }
+ 
+-#if defined(HAVE_LAKKA_SWITCH) || defined(HAVE_LIBNX)
++#if defined(HAVE_LIBNX)
+ static int action_ok_set_switch_cpu_profile(const char *path,
+       const char *label, unsigned type, size_t idx, size_t entry_idx)
+ {
+    char command[PATH_MAX_LENGTH] = {0};
+-#ifdef HAVE_LAKKA_SWITCH
+-   char* profile_name            = SWITCH_CPU_PROFILES[entry_idx];
+-
+-   snprintf(command, sizeof(command), "cpu-profile set '%s'", profile_name);
+-
+-   system(command);
+-   snprintf(command, sizeof(command), "Current profile set to %s", profile_name);
+-#else
+    unsigned profile_clock          = SWITCH_CPU_SPEEDS_VALUES[entry_idx];
+    settings_t *settings            = config_get_ptr();
+ 
+@@ -3943,7 +3935,6 @@ static int action_ok_set_switch_cpu_profile(const char *path,
+    }
+    snprintf(command, sizeof(command),
+          "Current Clock set to %i", profile_clock);
+-#endif
+ 
+    runloop_msg_queue_push(command, 1, 90, true, NULL,
+          MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
+@@ -3952,33 +3943,6 @@ static int action_ok_set_switch_cpu_profile(const char *path,
+ }
+ #endif
+ 
+-#ifdef HAVE_LAKKA_SWITCH
+-
+-static int action_ok_set_switch_gpu_profile(const char *path,
+-      const char *label, unsigned type, size_t idx, size_t entry_idx)
+-{
+-   char command[PATH_MAX_LENGTH];
+-   char            *profile_name  = SWITCH_GPU_PROFILES[entry_idx];
+-
+-   command[0]                     = '\0';
+-
+-   snprintf(command, sizeof(command),
+-         "gpu-profile set '%s'",
+-         profile_name);
+-
+-   system(command);
+-
+-   snprintf(command, sizeof(command),
+-         "Current profile set to %s",
+-         profile_name);
+-
+-   runloop_msg_queue_push(command, 1, 90, true, NULL,
+-         MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
+-
+-   return -1;
+-}
+-
+-#endif
+ 
+ static int action_ok_load_core_deferred(const char *path,
+       const char *label, unsigned type, size_t idx, size_t entry_idx)
+@@ -8270,10 +8234,8 @@ static int menu_cbs_init_bind_ok_compare_label(menu_file_list_cbs_t *cbs,
+ #ifdef HAVE_VIDEO_LAYOUT
+          {MENU_ENUM_LABEL_ONSCREEN_VIDEO_LAYOUT_SETTINGS,      action_ok_onscreen_video_layout_list},
+ #endif
+-#ifdef HAVE_LAKKA_SWITCH
+-         {MENU_ENUM_LABEL_SWITCH_GPU_PROFILE,                  action_ok_push_default},
+-#endif
+-#if defined(HAVE_LAKKA_SWITCH) || defined(HAVE_LIBNX)
++
++#if defined(HAVE_LIBNX)
+          {MENU_ENUM_LABEL_SWITCH_CPU_PROFILE,                  action_ok_push_default},
+ #endif
+          {MENU_ENUM_LABEL_MENU_WALLPAPER,                      action_ok_menu_wallpaper},
+@@ -8797,12 +8759,7 @@ static int menu_cbs_init_bind_ok_compare_type(menu_file_list_cbs_t *cbs,
+          case FILE_TYPE_PLAYLIST_ENTRY:gpu-profile set
+             BIND_ACTION_OK(cbs, action_ok_playlist_entry_collection);
+             break;
+-#ifdef HAVE_LAKKA_SWITCH
+-         case MENU_SET_SWITCH_GPU_PROFILE:
+-            BIND_ACTION_OK(cbs, action_ok_set_switch_gpu_profile);
+-            break;
+-#endif
+-#if defined(HAVE_LAKKA_SWITCH) || defined(HAVE_LIBNX)
++#if defined(HAVE_LIBNX)
+          case MENU_SET_SWITCH_CPU_PROFILE:
+             BIND_ACTION_OK(cbs, action_ok_set_switch_cpu_profile);
+             break;
+-- 
+2.25.1
+

@@ -1,7 +1,7 @@
 PKG_NAME="retroarch"
-PKG_VERSION="36a7b8ba8c052ef74d400792eeb72a7928bd5e0e"
+PKG_VERSION="6c22249ae958a0c9a323b45079e6ad8d3e84702d"
 PKG_LICENSE="GPLv3"
-PKG_SITE="https://github.com/wings110/RetroArch"
+PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain freetype zlib ffmpeg libass libvdpau libxkbcommon glsl_shaders slang_shaders systemd libpng fontconfig"
 PKG_LONGDESC="Reference frontend for the libretro API."
@@ -22,7 +22,6 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-vg \
 
 PKG_MAKE_OPTS_TARGET="V=1 \
                       HAVE_LAKKA=1 \
-                      HAVE_CHEEVOS=1 \
                       HAVE_HAVE_ZARCH=0 \
                       HAVE_WIFI=1 \
                       HAVE_BLUETOOTH=1 \
@@ -31,7 +30,7 @@ PKG_MAKE_OPTS_TARGET="V=1 \
 if [ "${OPENGLES_SUPPORT}" = yes ]; then
   PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles"
-  if [[ ${DEVICE} =~ ^RPi4.* ]] || [ ${DEVICE} = "RK3288" ] || [ "${DEVICE}" = "RK3399" ] || [ "${DEVICE}" = "Odin" ] || [ "${DEVICE}" = "RPi5" ]; then
+  if [[ ${DEVICE} =~ ^RPi4.* ]] || [ ${DEVICE} = "RK3288" ] || [ "${DEVICE}" = "RK3399" ] || [ "${DEVICE}" = "Odin" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                                  --enable-opengles3_1"
   fi
@@ -49,8 +48,9 @@ fi
 
 if [ "${VULKAN_SUPPORT}" = yes ]; then
   PKG_DEPENDS_TARGET+=" ${VULKAN}"
-  PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=1"
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-vulkan"
+else
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-vulkan"
 fi
 
 if [ "${SAMBA_SUPPORT}" = yes ]; then
@@ -72,10 +72,11 @@ else
   PKG_CONFIGURE_OPTS_TARGET+=" --disable-x11"
 fi
 
-if [ "${DISPLAYSERVER}" = "wl" ]; then
+if [ "${DISPLAYSERVER}" = "weston" ]; then
   PKG_DEPENDS_TARGET+=" wayland wayland-protocols"
-  PKG_MAKE_OPTS_TARGET+=" HAVE_WAYLAND=1"
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wayland"
+else
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-wayland"
 fi
 
 if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
@@ -128,8 +129,6 @@ fi
 
 if [ "${LAKKA_NIGHTLY}" = yes ]; then
   PKG_MAKE_OPTS_TARGET+=" HAVE_LAKKA_NIGHTLY=1"
-elif [ ! "${LAKKA_CANARY_PATH}" = "" ]; then
-  PKG_MAKE_OPTS_TARGET+=" HAVE_LAKKA_CANARY=\"${LAKKA_CANARY_PATH}\""
 fi
 
 pre_configure_target() {
@@ -223,7 +222,7 @@ makeinstall_target() {
   echo 'audio_driver = "alsathread"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'audio_filter_dir = "/usr/share/audio_filters"' >> ${INSTALL}/etc/retroarch.cfg
 
-  if [ "${PROJECT}" = "Samsung" ]; then # workaround the 55fps bug
+  if [ "${PROJECT}" = "OdroidXU3" ]; then # workaround the 55fps bug
     echo 'audio_out_rate = "44100"' >> ${INSTALL}/etc/retroarch.cfg
   fi
 
@@ -269,7 +268,7 @@ makeinstall_target() {
   if [ "${PROJECT}" = "RPi" ] && [ "${DEVICE}" = "GPICase" -o "${DEVICE}" = "Pi02GPi" ]; then
     sed -i -e 's|^input_menu_toggle_gamepad_combo =.*|input_menu_toggle_gamepad_combo = "4"|' ${INSTALL}/etc/retroarch.cfg
     sed -i -e 's|^menu_driver =.*|menu_driver = "rgui"|' ${INSTALL}/etc/retroarch.cfg
-    echo 'audio_device = "default:CARD=Headphones"' >> ${INSTALL}/etc/retroarch.cfg
+    echo 'audio_device = "default:CARD=ALSA"' >> ${INSTALL}/etc/retroarch.cfg
     echo 'menu_timedate_enable = "false"' >> ${INSTALL}/etc/retroarch.cfg
     echo 'menu_enable_widgets = "false"' >> ${INSTALL}/etc/retroarch.cfg
     echo 'aspect_ratio_index = "21"' >> ${INSTALL}/etc/retroarch.cfg
@@ -284,9 +283,6 @@ makeinstall_target() {
     if [ "${DEVICE}" = "Pi02GPi" ]; then
       echo 'input_player1_analog_dpad_mode = "3"' >> $INSTALL/etc/retroarch.cfg
     fi
-  fi
-  if [ "${PROJECT}" = "RPi" ] && [ "${DEVICE}" = "RPi4-GPICase2" ]; then
-    echo 'audio_device = "default:CARD=Device"' >> ${INSTALL}/etc/retroarch.cfg
   fi
 
   # PiBoy DMG / RetroDreamer

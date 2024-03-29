@@ -1,6 +1,6 @@
 PKG_NAME="vulkan-tools"
-PKG_VERSION="1.2.187"
-PKG_SHA256="a5629f519871d3c5881b05a33c3dfa252bd0d3b4df60be1023903c191025f47e"
+PKG_VERSION="1.3.204"
+
 PKG_LICENSE="Apache 2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Tools"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-tools/archive/v${PKG_VERSION}.tar.gz"

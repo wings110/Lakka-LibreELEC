@@ -1,9 +1,8 @@
 PKG_NAME="vulkan-loader"
-PKG_VERSION="1.2.187"
-PKG_SHA256="8edd4b119deec9b28d9618a1f6209e7fb627023a61bbbd56c1121e16dd77f872"
+PKG_VERSION="4c46ad7f463d27e0d999e5f06633fd45310f34b6"
 PKG_LICENSE="Apache 2.0"
-PKG_SITE="https://www.khronos.org"
-PKG_URL="https://github.com/KhronosGroup/Vulkan-Loader/archive/v${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/KhronosGroup/VulkanSC-Loader"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain cmake:host Python3 vulkan-headers xrandr"
 PKG_LONGDESC="Vulkan Installable Client Driver (ICD) Loader."
 

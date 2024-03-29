@@ -45,7 +45,7 @@ BOOTLOADER="switch-bootloader" # this is a fake bootloader since coreboot and u-
 ADDITIONAL_DRIVERS+=" xf86-input-libinput"
 #Add proper version for kernel based upon switchroot version Only used for switch
 SWITCHROOT_VERSION=5.1.2
-GENERIC_L4T_VERSION=32.3.1 
+GENERIC_L4T_VERSION=32.7.4
 L4T_DEVICE_TYPE="t210" 
 #L4T_COMBINED_KERNEL_SHA256="c3a8df6836cb4581162da6f4d380c2a730f69b3bac8bbaf4c2ec6c73ab5461cd"
 

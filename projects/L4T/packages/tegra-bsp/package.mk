@@ -57,9 +57,14 @@ case "${L4T_DEVICE_TYPE}" in
         ;;
       32.7.1)
         PKG_URL="https://developer.nvidia.com/embedded/l4t/r32_release_v7.1/t210/jetson-210_linux_r32.7.1_aarch64.tbz2"
+                 https://developer.nvidia.com/embedded/l4t/r32_release_v7.2/t210/jetson-210_linux_r32.7.2_aarch64.tbz2
+                 https://developer.nvidia.com/downloads/embedded/l4t/r32_release_v7.4/t210/jetson-210_linux_r32.7.4_aarch64.tbz2
         MEDIA_API_URL="https://repo.download.nvidia.com/jetson/t210/pool/main/n/nvidia-l4t-jetson-multimedia-api/nvidia-l4t-jetson-multimedia-api_32.7.1-20220219090432_arm64.deb"
         ;;
-
+      32.7.4)
+        PKG_URL="https://developer.nvidia.com/downloads/embedded/l4t/r32_release_v7.4/t210/jetson-210_linux_r32.7.4_aarch64.tbz2"
+        MEDIA_API_URL="https://repo.download.nvidia.com/jetson/t210/pool/main/n/nvidia-l4t-jetson-multimedia-api/nvidia-l4t-jetson-multimedia-api_32.7.4-20230608212426_arm64.deb"
+        ;;
       *)
         echo L4T-r"${GENERIC_L4T_VERSION}" is not supported
         exit 1
