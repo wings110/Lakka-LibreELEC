@@ -1,6 +1,6 @@
 PKG_NAME="mame"
-PKG_VERSION="6d6d21fd9e41dab2b0e0ca0587baf3fcad18fd67"
-PKG_ARCH="aarch64 arm"
+PKG_VERSION="ac9d0347f5d331eb49017cd599a5e63a668b4f22"
+PKG_ARCH="aarch64"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/libretro/mame"
 PKG_URL="${PKG_SITE}.git"
@@ -13,9 +13,6 @@ PKG_MAKE_OPTS_TARGET="-f Makefile.libretro REGENIE=1 VERBOSE=1 NOWERROR=1 OPENMP
 case ${ARCH} in
   aarch64)
     PKG_MAKE_OPTS_TARGET+=" NOASM=0 PTR64=0 PLATFORM=arm64"
-    ;;
-  arm)
-    PKG_MAKE_OPTS_TARGET+=" NOASM=1 PTR64=0 PLATFORM=arm"
     ;;
 esac
 

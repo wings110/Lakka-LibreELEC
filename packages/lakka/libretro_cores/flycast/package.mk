@@ -1,5 +1,5 @@
 PKG_NAME="flycast"
-PKG_VERSION="f346bcd68b7d8eed9a74666163b2f3d783c2d2c5"
+PKG_VERSION="236b747db826b6b111c83664c970e4abda1bc735"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="${PKG_SITE}.git"

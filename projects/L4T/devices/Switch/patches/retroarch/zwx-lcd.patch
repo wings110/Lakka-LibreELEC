@@ -1,0 +1,39 @@
+diff --git a/menu/cbs/menu_cbs_ok.c b/menu/cbs/menu_cbs_ok.c
+--- menu_cbs_ok.c	2024-03-29 19:35:28.000000000 +0800
++++ menu_cbs_ok0.c	2024-03-29 21:49:27.216013004 +0800
+@@ -98,7 +98,7 @@
+ #include "../../play_feature_delivery/play_feature_delivery.h"
+ #endif
+ 
+-#if defined(HAVE_LIBNX)
++#if defined(HAVE_LAKKA)
+ #include "../../switch_performance_profiles.h"
+ #endif
+ 
+@@ -4079,7 +4079,7 @@
+    return 0;
+ }
+ 
+-#if defined(HAVE_LIBNX)
++#if defined(HAVE_LAKKA)
+ static int action_ok_set_switch_cpu_profile(const char *path,
+       const char *label, unsigned type, size_t idx, size_t entry_idx)
+ {
+@@ -8683,7 +8683,7 @@
+          {MENU_ENUM_LABEL_NETPLAY_REFRESH_LAN,                 action_ok_push_netplay_refresh_lan},
+ #endif
+ #endif
+-#if defined(HAVE_LIBNX)
++#if defined(HAVE_LAKKA)
+          {MENU_ENUM_LABEL_SWITCH_CPU_PROFILE,                  action_ok_push_default},
+ #endif
+          {MENU_ENUM_LABEL_MENU_WALLPAPER,                      action_ok_menu_wallpaper},
+@@ -9226,7 +9226,7 @@
+          case FILE_TYPE_PLAYLIST_ENTRY:
+             BIND_ACTION_OK(cbs, action_ok_playlist_entry_collection);
+             break;
+-#if defined(HAVE_LIBNX)
++#if defined(HAVE_LAKKA)
+          case MENU_SET_SWITCH_CPU_PROFILE:
+             BIND_ACTION_OK(cbs, action_ok_set_switch_cpu_profile);
+             break;
