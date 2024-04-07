@@ -337,6 +337,16 @@ makeinstall_target() {
   # sort the options in config file
   sort ${INSTALL}/etc/retroarch.cfg > ${INSTALL}/etc/retroarch-sorted.cfg
   mv ${INSTALL}/etc/retroarch-sorted.cfg ${INSTALL}/etc/retroarch.cfg
+
+  # create default environment file
+  echo "HOME=/storage" >> ${INSTALL}/usr/lib/retroarch/retroarch-env.conf
+  if [ "${DISPLAYSERVER}" = "x11" ]; then
+    echo "DISPLAY=:0.0" >> ${INSTALL}/usr/lib/retroarch/retroarch-env.conf
+  elif [ "${DISPLAYSERVER}" = "wl" ]; then
+    echo "WAYLAND_DISPLAY='wayland-1'" >> ${INSTALL}/usr/lib/retroarch/retroarch-env.conf
+    echo "SWAYSOCK='/var/run/0-runtime-dir/sway-ipc.0.sock'" >> ${INSTALL}/usr/lib/retroarch/retroarch-env.conf
+    echo "XDG_RUNTIME_DIR='/var/run/0-runtime-dir'" >> ${INSTALL}/usr/lib/retroarch/retroarch-env.conf
+  fi
 }
 
 post_install() {
