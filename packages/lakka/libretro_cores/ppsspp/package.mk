@@ -49,7 +49,6 @@ if [ "${TARGET_ARCH}" = "arm" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DFORCED_CPU=armv7"
   fi
 elif [ "${TARGET_ARCH}" = "aarch64" ]; then
-  "${TARGET_ARCH}" = "arm64"
   PKG_CMAKE_OPTS_TARGET+=" -DFORCED_CPU=aarch64"
 fi
 
