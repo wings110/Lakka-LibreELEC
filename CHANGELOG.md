@@ -9,7 +9,7 @@
 * Add new libretro core: `thepowdertoy`
 * Add new libretro core: `vircon32`
 * Add new libretro core: `vitaquake2`
-* Update Mesa to [23.0.4](https://docs.mesa3d.org/relnotes/24.0.4.html)
+* Update Mesa to [24.0.4](https://docs.mesa3d.org/relnotes/24.0.4.html)
 * Update mainline kernel to 6.1.84
 * Update raspberry kernel to 6.1.77
 * Update amlogic kernel to 6.1.38
