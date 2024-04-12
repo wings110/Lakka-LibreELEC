@@ -7,6 +7,7 @@
 * Add new libretro core: `jaxe`
 * Add new libretro core: `numero`
 * Add new libretro core: `thepowdertoy`
+* Add new libretro core: `vice_xpet`
 * Add new libretro core: `vircon32`
 * Add new libretro core: `vitaquake2`
 * Update Mesa to [24.0.4](https://docs.mesa3d.org/relnotes/24.0.4.html)

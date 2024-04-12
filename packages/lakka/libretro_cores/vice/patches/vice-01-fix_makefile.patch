@@ -1,0 +1,43 @@
+diff --git a/Makefile b/Makefile
+index fc2830e..c29d524 100644
+--- a/Makefile
++++ b/Makefile
+@@ -438,10 +438,11 @@ ifeq ($(platform), theos_ios)
+ 	include $(THEOS_MAKE_PATH)/library.mk
+ else
+ 
+-default:
++default: info all
++
++info:
+ 	$(info CFLAGS: $(PLATFLAGS) $(COMMONFLAGS))
+ 	$(info -------)
+-	$(MAKE) $(TARGET)
+ 
+ all: $(TARGET)
+ 
+@@ -461,21 +462,21 @@ endif
+ 
+ $(OBJDIR)/%.o: %.c
+ 	@mkdir -p $(dir $@)
+-	@if [[ $(SILENT) -ne 1 ]]; then\
++	@if [ $(SILENT) -ne 1 ]; then\
+ 		$(if $@, $(shell echo echo CC $<),);\
+ 	fi
+ 	$(CC) $(CFLAGS) -c -o $@ $<
+ 
+ $(OBJDIR)/%.o: %.cpp
+ 	@mkdir -p $(dir $@)
+-	@if [[ $(SILENT) -ne 1 ]]; then\
++	@if [ $(SILENT) -ne 1 ]; then\
+ 		$(if $@, $(shell echo echo CXX $<),);\
+ 	fi
+ 	$(CXX) $(CXXFLAGS) -c -o $@ $<
+ 
+ $(OBJDIR)/%.o: %.cc
+ 	@mkdir -p $(dir $@)
+-	@if [[ $(SILENT) -ne 1 ]]; then\
++	@if [ $(SILENT) -ne 1 ]; then\
+ 		$(if $@, $(shell echo echo CXX $<),);\
+ 	fi
+ 	$(CXX) $(CXXFLAGS) -c -o $@ $<

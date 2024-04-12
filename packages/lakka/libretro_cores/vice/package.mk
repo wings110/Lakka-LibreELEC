@@ -6,10 +6,9 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Versatile Commodore 8-bit Emulator version"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+pic -gold"
 
 make_target() {
-  for LRCORE in x64 x128 xplus4 xvic ; do
+  for LRCORE in x64 x128 xpet xplus4 xvic ; do
     make EMUTYPE=${LRCORE}
     make objectclean
   done
