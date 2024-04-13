@@ -12,7 +12,7 @@ PKG_DEPENDS_HOST="toolchain flex freetype:host gettext:host"
 PKG_DEPENDS_TARGET="${PKG_NAME}:host"
 PKG_DEPENDS_UNPACK="gnulib"
 PKG_LONGDESC="GRUB is a Multiboot boot loader."
-PKG_TOOLCHAIN="configure"
+PKG_TOOLCHAIN="manual"
 
 configure_host() {
   for _grub_target in x86_64-pc-linux i386-pc-linux ; do
