@@ -1,5 +1,5 @@
 PKG_NAME="core_info"
-PKG_VERSION="a59bb4dfe97502d5547ee3a242f1ac01b550bfa4"
+PKG_VERSION="a14d7eb60908def60fc422f689f34b0c2f63c58e"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-core-info"
 PKG_URL="${PKG_SITE}.git"
@@ -10,5 +10,5 @@ makeinstall_target() {
   make -C ${PKG_BUILD} install INSTALLDIR="${INSTALL}/usr/lib/libretro"
 
   # ScummVM package provides own core info file
-  rm -f ${INSTALL}/usr/lib/libretro/scummvm_libretro.info
+  rm -v ${INSTALL}/usr/lib/libretro/scummvm_libretro.info
 }

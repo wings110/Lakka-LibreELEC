@@ -418,6 +418,14 @@
   if [ "${PROJECT}" != "L4T" -a "${DEVICE}" != "Switch" ]; then
     EXCLUDE_LIBRETRO_CORES+=" lr_moonlight"
   fi
+  # kronos currently builds only for gbm and x11 x86_64 arch (does not work on GLES)
+  if [ "${PROJECT}" != "Generic" ]; then
+    EXCLUDE_LIBRETRO_CORES+=" kronos"
+  elif [ "${ARCH}" != "x86_64" ]; then
+    EXCLUDE_LIBRETRO_CORES+=" kronos"
+  elif [ "${DEVICE}" != "Generic" -a "${DEVICE}" != "x11" ]; then
+    EXCLUDE_LIBRETRO_CORES+=" kronos"
+  fi
 
   # lr_moonlight does not currently build for Switch because of newer OpenSSL package (older package is not compatible with ffmpeg)
   if [ "${DEVICE}" = "Switch" ]; then

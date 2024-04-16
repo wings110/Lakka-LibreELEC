@@ -1,5 +1,5 @@
 PKG_NAME="retroarch"
-PKG_VERSION="ad8975cb5a0fe45be43438bdbd6c3d745653dd02"
+PKG_VERSION="06fa5325f8b3cd42e6fba3d57835d5924c9ea2e7"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="${PKG_SITE}.git"
@@ -31,9 +31,12 @@ PKG_MAKE_OPTS_TARGET="V=1 \
 if [ "${OPENGLES_SUPPORT}" = yes ]; then
   PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles"
-  if [[ ${DEVICE} =~ ^RPi4.* ]] || [ ${DEVICE} = "RK3288" ] || [ "${DEVICE}" = "RK3399" ] || [ "${DEVICE}" = "Odin" ] || [ "${DEVICE}" = "RPi5" ]; then
+  if [ ${DEVICE:0:4} = "RPi4" ] || [ ${DEVICE} = "RK3288" ] || [ "${DEVICE}" = "RK3399" ] || [ "${PROJECT}" = "Generic" ] || [ "${DEVICE}" = "Odin" ] || [ "${DEVICE}" = "RPi5" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                                  --enable-opengles3_1"
+    if [ "${PROJECT}" = "Generic" ]; then
+      PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3_2"
+    fi
   fi
 else
   PKG_CONFIGURE_OPTS_TARGET+=" --disable-opengles"
@@ -128,7 +131,9 @@ fi
 
 if [ "${LAKKA_NIGHTLY}" = yes ]; then
   PKG_MAKE_OPTS_TARGET+=" HAVE_LAKKA_NIGHTLY=1"
-elif [ ! "${LAKKA_CANARY_PATH}" = "" ]; then
+elif [ "${LAKKA_DEVBUILD}" = yes ]; then
+  PKG_MAKE_OPTS_TARGET+=" HAVE_LAKKA_DEVBUILD=1"
+elif [ -n "${LAKKA_CANARY_PATH}" ]; then
   PKG_MAKE_OPTS_TARGET+=" HAVE_LAKKA_CANARY=\"${LAKKA_CANARY_PATH}\""
 fi
 
@@ -155,6 +160,7 @@ make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
     cp -v ${PKG_BUILD}/retroarch ${INSTALL}/usr/bin
+    cp -v ${PKG_DIR}/scripts/lakka-*.sh ${INSTALL}/usr/bin
   mkdir -p ${INSTALL}/usr/share/video_filters
     cp -v ${PKG_BUILD}/gfx/video_filters/*.so ${INSTALL}/usr/share/video_filters
     cp -v ${PKG_BUILD}/gfx/video_filters/*.filt ${INSTALL}/usr/share/video_filters
@@ -213,7 +219,7 @@ makeinstall_target() {
   echo 'video_smooth = "false"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'video_aspect_ratio_auto = "true"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'video_threaded = "true"' >> ${INSTALL}/etc/retroarch.cfg
-  echo 'video_font_path = "/usr/share/retroarch/assets/xmb/monochrome/font.ttf"' >> ${INSTALL}/etc/retroarch.cfg
+  echo 'video_font_path = "/tmp/assets/xmb/monochrome/font.ttf"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'video_font_size = "32"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'video_filter_dir = "/usr/share/video_filters"' >> ${INSTALL}/etc/retroarch.cfg
   echo 'video_gpu_screenshot = "false"' >> ${INSTALL}/etc/retroarch.cfg

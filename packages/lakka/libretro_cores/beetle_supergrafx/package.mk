@@ -1,5 +1,5 @@
 PKG_NAME="beetle_supergrafx"
-PKG_VERSION="b9cb84001a8b89aa8f4f4602f83d7bf1f1a356b4"
+PKG_VERSION="e41f864c0abb36aef20f8e37cd9d9a92c00a9221"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-supergrafx-libretro"
 PKG_URL="${PKG_SITE}.git"
