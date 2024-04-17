@@ -69,7 +69,7 @@ if [ -e /storage/.please_resize_me ] ; then
     StartProgressLog spinner "Mounting file system...   " "mount $PART /storage >>$LOG 2>&1"
     StartProgressLog spinner "Resizing file system...   " "resize2fs $PART >>$LOG 2>&1"
     StartProgressLog spinner "Unmounting file system... " "umount /storage >>$LOG 2>&1"
-    StartProgress countdown "Rebooting in 15s...     " 15 "NOW"
+    StartProgress countdown "Rebooting in 15s...       " 15 "NOW"
   else
     echo "Partition was not detected - resizing aborted."
     StartProgress countdown "Rebooting in 15s... " 15 "NOW"
