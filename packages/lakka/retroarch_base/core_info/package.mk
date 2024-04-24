@@ -1,5 +1,5 @@
 PKG_NAME="core_info"
-PKG_VERSION="a0a5dff2a11313ee4a757df689260300a616e38a"
+PKG_VERSION="a14d7eb60908def60fc422f689f34b0c2f63c58e"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-core-info"
 PKG_URL="${PKG_SITE}.git"
@@ -11,9 +11,4 @@ makeinstall_target() {
 
   # ScummVM package provides own core info file
   rm -v ${INSTALL}/usr/lib/libretro/scummvm_libretro.info
-
-  # mGBA core built from upstream repo - create a duplicate .info file
-  cp -v ${INSTALL}/usr/lib/libretro/mgba_libretro.info ${INSTALL}/usr/lib/libretro/mgba_upstream_libretro.info
-  sed -i ${INSTALL}/usr/lib/libretro/mgba_upstream_libretro.info \
-      -e "s|mGBA|mGBA-upstream|g"
 }
