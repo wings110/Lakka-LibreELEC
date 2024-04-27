@@ -7,6 +7,7 @@ PKG_DEPENDS_TARGET="toolchain libzip libpng zlib"
 PKG_LONGDESC="mGBA Game Boy Advance Emulator"
 PKG_TOOLCHAIN="cmake"
 PKG_LR_UPDATE_TAG="yes"
+PKG_LR_UPDATE_TAG_MASK="*.*.*"
 
 PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=Release \
                        -DBUILD_LIBRETRO=ON \
