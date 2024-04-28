@@ -7,7 +7,7 @@ PKG_LONGDESC="Retrorama Theme for Retroarch XMB UI"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-  mkdir -p ${INSTALL}/usr/share/retroarch/assets/{xmb,wallpapers}
-    cp -vr Retrorama ${INSTALL}/usr/share/retroarch/assets/xmb
+  mkdir -p ${INSTALL}/usr/share/retroarch/assets/{xmb/custom,wallpapers}
+    cp -vr Retrorama/font.ttf Retrorama/png ${INSTALL}/usr/share/retroarch/assets/xmb/custom
     cp -vr "Retrorama Dynamic Wallpapers" ${INSTALL}/usr/share/retroarch/assets/wallpapers
 }
