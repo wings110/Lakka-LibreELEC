@@ -1,3 +1,9 @@
+# v5.1
+* Update RetroArch to ...
+* Update libretro cores
+* Add `mgba` core from forked libretro repository with options Interframe Blending and Color Correction
+* Update Mesa to [24.0.6](https://docs.mesa3d.org/relnotes/24.0.6.html)
+
 # v5.0
 * Update buildsystem to LibreELEC 11.0
 * Update RetroArch to [1.17.0](https://www.libretro.com/index.php/retroarch-1-17-0-release/)
