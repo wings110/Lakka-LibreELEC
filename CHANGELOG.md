@@ -1,8 +1,12 @@
 # v5.1
-* Update RetroArch to ...
+* Update RetroArch to 1.18.0
 * Update libretro cores
 * Add `mgba` core from forked libretro repository with options Interframe Blending and Color Correction
-* Update Mesa to [24.0.6](https://docs.mesa3d.org/relnotes/24.0.6.html)
+* Update Mesa to [24.0.7](https://docs.mesa3d.org/relnotes/24.0.7.html)
+* Fix storage partition resizing
+* Fix folder mapping for cheats
+* Add [Game Controller driver for RPi GPIO](https://github.com/h1aji/gamecon_gpio_rpi/)
+* Add support for set-up script (`firstboot.sh`) to set-up Wi-Fi, add new / override default RetroArch config settings
 
 # v5.0
 * Update buildsystem to LibreELEC 11.0
