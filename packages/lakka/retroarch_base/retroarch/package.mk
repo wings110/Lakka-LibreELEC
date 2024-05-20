@@ -42,7 +42,7 @@ else
   PKG_CONFIGURE_OPTS_TARGET+=" --disable-opengles"
 fi
 
-if [ "${OPENGL_SUPPORT}" = yes -a ! "${OPENGLES_SUPPORT}" = "yes" ]; then
+if [ "${OPENGL_SUPPORT}" = yes ]; then
   PKG_DEPENDS_TARGET+=" ${OPENGL}"
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengl"
   PKG_MAKE_OPTS_TARGET+=" HAVE_OPENGL1=1"
